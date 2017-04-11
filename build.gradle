@@ -11,7 +11,9 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
+plugins {
+    id "org.sonarqube" version "2.3"
+}
 allprojects {
     repositories {
         jcenter()
@@ -30,4 +32,37 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectkey", "com.sample.gradle.androidtesting"
+        property "sonar.projectName", "Android Testing Gradle"
+        property "sonar.projectVersion", "1.6"
+        property "sonar.java.source", "7"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.import_unknown_files", "true"
+    }
+}
+
+subprojects { subProject ->
+    sonarqube {
+        properties {
+            property "sonar.sources", "src/main/java"
+            property "sonar.tests", "src/test/java"
+            property "sonar.java.binaries", "build/intermediates/classes/debug"
+
+            property "sonar.junit.reportsPath", "build/test-results/testDebugUnitTest"
+            property "sonar.jacoco.reportPath", "build/jacoco/testDebugUnitTest.exec"
+            property "sonar.jacoco.itReportPath", "${getCoverageFile(subProject)}"
+
+            property "sonar.android.lint.report", "build/outputs/lint-results-debug.xml"
+        }
+    }
+}
+
+public static getCoverageFile(subProject) {
+    def files = new File(subProject.projectDir, "build/outputs/code-coverage/connected").listFiles()
+    return files[0];
+    //return build/outputs/code-coverage/connected/*coverage.ec
 }
