@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AndroidTesting</string>
+
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="button_login">LOGIN</string>
+</resources>
