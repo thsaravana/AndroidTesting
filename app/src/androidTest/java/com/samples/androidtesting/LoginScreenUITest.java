@@ -2,6 +2,7 @@ package com.samples.androidtesting;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -28,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 
-@EspressoTest
 @RunWith(AndroidJUnit4.class)
 public class LoginScreenUITest {
 
@@ -42,6 +42,7 @@ public class LoginScreenUITest {
 
     @Test
     public void testLaunchWelcomeScreen() {
+        ViewActions.closeSoftKeyboard();
         onView(withId(R.id.name)).perform(typeText("sample"));
         onView(withId(R.id.email)).perform(typeText("support@sample.com"));
         onView(withId(R.id.login)).perform(click());
@@ -51,10 +52,17 @@ public class LoginScreenUITest {
 
     @Test
     public void testShowErrorWhenNameIsEmpty() {
+        ViewActions.closeSoftKeyboard();
         onView(withId(R.id.name)).perform(typeText(""));
         onView(withId(R.id.email)).perform(typeText("support@sample.com"));
         onView(withId(R.id.login)).perform(click());
 
         onView(withText("Name is empty")).inRoot(withDecorView(not(is(mIntentTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+    }
+
+    @EspressoTest
+    @Test
+    public void testSomething(){
+
     }
 }
