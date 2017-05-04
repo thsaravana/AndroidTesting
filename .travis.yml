@@ -35,3 +35,14 @@ before_script:
 script:
   - android list target
   - ./gradlew connectedAndroidTest
+
+addons:
+  sonarqube:
+    organization: "thsaravana-github"
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'
