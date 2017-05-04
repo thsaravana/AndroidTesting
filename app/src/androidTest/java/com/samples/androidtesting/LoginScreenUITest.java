@@ -2,6 +2,7 @@ package com.samples.androidtesting;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -41,20 +42,30 @@ public class LoginScreenUITest {
     }
 
     @Test
-    public void testLaunchWelcomeScreen() {
-        ViewActions.closeSoftKeyboard();
+    public void testLaunchWelcomeScreen() throws InterruptedException {
+        Espresso.closeSoftKeyboard();
+
         onView(withId(R.id.name)).perform(typeText("sample"));
+        Espresso.closeSoftKeyboard();
+
         onView(withId(R.id.email)).perform(typeText("support@sample.com"));
+
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.login)).perform(click());
 
         intended(hasComponent("com.samples.androidtesting.WelcomeActivity"));
     }
 
     @Test
-    public void testShowErrorWhenNameIsEmpty() {
-        ViewActions.closeSoftKeyboard();
+    public void testShowErrorWhenNameIsEmpty() throws InterruptedException {
+        Espresso.closeSoftKeyboard();
+
         onView(withId(R.id.name)).perform(typeText(""));
+        Espresso.closeSoftKeyboard();
+
         onView(withId(R.id.email)).perform(typeText("support@sample.com"));
+
+        Espresso.closeSoftKeyboard();
         onView(withId(R.id.login)).perform(click());
 
         onView(withText("Name is empty")).inRoot(withDecorView(not(is(mIntentTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
