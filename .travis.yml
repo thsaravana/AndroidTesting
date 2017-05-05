@@ -34,7 +34,7 @@ before_script:
 
 script:
   - android list target
-  - ./gradlew connectedAndroidTest sonarqube
+  - ./gradlew connectedAndroidTest sonarqube -Dsonar.host.url=https://sonarqube.com
 
 addons:
   sonarqube:
